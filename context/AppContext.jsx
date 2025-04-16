@@ -1,5 +1,4 @@
 'use client'
-import { productsDummyData, userDummyData } from "@/assets/assets";
 import { useAuth, useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -23,7 +22,7 @@ export const AppContextProvider = (props) => {
     const [products, setProducts] = useState([])
     const [userData, setUserData] = useState(false)
     const [isSeller, setIsSeller] = useState(false)
-    const [cartItem, setcartItem] = useState({})
+    const [cartItem, setCartItem] = useState({})
 
     const fetchProductData = async () => {
         try {
@@ -52,9 +51,8 @@ export const AppContextProvider = (props) => {
                 }
             })
             if (data.success) {
-                console.log("check data", data)
                 setUserData(data.user)
-                setcartItem(data.user.cartItem)
+                setCartItem(data.user.cartItem)
             } else {
                 toast.error(data.message)
             }
@@ -73,7 +71,7 @@ export const AppContextProvider = (props) => {
         else {
             cartData[itemId] = 1;
         }
-        setcartItem(cartData);
+        setCartItem(cartData);
 
         if (user) {
             try {
@@ -97,7 +95,7 @@ export const AppContextProvider = (props) => {
         } else {
             cartData[itemId] = quantity;
         }
-        setcartItem(cartData)
+        setCartItem(cartData)
         if (user) {
             try {
                 const token = await getToken()
@@ -149,7 +147,7 @@ export const AppContextProvider = (props) => {
         isSeller, setIsSeller,
         userData, fetchUserData,
         products, fetchProductData,
-        cartItem, setcartItem,
+        cartItem, setCartItem,
         addToCart, updateCartQuantity,
         getCartCount, getCartAmount
     }
